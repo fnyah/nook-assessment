@@ -1,20 +1,30 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { NavigationContainer } from '@react-navigation/native';
+import { TabOne, TabTwo } from './src/screens/TabScreens';
+import { createDrawerNavigator } from '@react-navigation/drawer';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
-export default function App() {
+import JokeScreen from './src/screens/JokeScreen'
+import CustomDrawer from './src/components/CustomDrawer'
+
+const Drawer = createDrawerNavigator();
+const Tab = createBottomTabNavigator();
+
+const tabScreens = () => {
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <Tab.Navigator>
+      <Tab.Screen name="Tab One" component={TabOne} />
+      <Tab.Screen name="Tab Two" component={TabTwo} />
+    </Tab.Navigator>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+export default function App() {
+  return (
+    <NavigationContainer>
+      <Drawer.Navigator drawerContent={props => <CustomDrawer {...props} />} >
+        <Drawer.Screen name="Menu" component={tabScreens} />
+        <Drawer.Screen name="Delivery!" component={JokeScreen} />
+      </Drawer.Navigator>
+    </NavigationContainer>
+  );
+}
